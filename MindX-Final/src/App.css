@@ -1,0 +1,29 @@
+.custom-modal-body {
+  display: flex;
+  flex-direction: row;
+  padding: 20px;
+}
+
+.movie-poster {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.movie-info {
+  flex: 2;
+}
+
+.play-button {
+  background-color: #ff6b00;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.play-button:hover {
+  background-color: #e65a00;
+}
