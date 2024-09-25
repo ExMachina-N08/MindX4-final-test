@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { MenuOutlined, SearchOutlined } from "@ant-design/icons";
 import { Dropdown, Menu, Input, message } from "antd";
 import axios from "axios";
-
+import Logo from "./logo";
 const Navbar = ({ isLoggedIn, setIsLoggedIn, setMovies }) => {
   const [searchValue, setSearchValue] = useState("");
+  const [isSearchVisible, setIsSearchVisible] = useState(false); // State to toggle search input visibility
 
   // Handle login/logout functionality
   const handleLogin = async () => {
@@ -53,6 +54,11 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn, setMovies }) => {
     }
   };
 
+  // Toggle search input visibility
+  const toggleSearch = () => {
+    setIsSearchVisible(!isSearchVisible);
+  };
+
   // Menu items for Dropdown
   const menuItems = [
     {
@@ -68,19 +74,20 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn, setMovies }) => {
       <Dropdown menu={{ items: menuItems }} trigger={["click"]}>
         <MenuOutlined className="text-xl cursor-pointer" />
       </Dropdown>
-      <h1 className="text-2xl font-bold">
-        MOVIE <span className="text-orange-500">UI</span>
-      </h1>
+      <Logo />
       <div className="flex items-center">
-        <Input
-          placeholder="Search movies"
-          value={searchValue}
-          onChange={handleSearchChange}
-          style={{ width: 200 }}
-        />
+        {/* Search Input */}
+        {isSearchVisible && (
+          <Input
+            placeholder="Search movies"
+            value={searchValue}
+            onChange={handleSearchChange}
+            style={{ width: 200, marginRight: "10px" }} // Add margin for spacing
+          />
+        )}
         <SearchOutlined
           className="text-xl cursor-pointer ml-2"
-          onClick={handleSearchClick}
+          onClick={toggleSearch}
         />
       </div>
     </div>
