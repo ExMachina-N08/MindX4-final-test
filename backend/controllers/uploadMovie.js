@@ -43,7 +43,7 @@ exports.getAllMovies = async (req, res) => {
   }
 };
 
-// Read a single movie by ID
+// Read single movie
 exports.getMovieById = async (req, res) => {
   try {
     const movie = await Movie.findById(req.params.id);
@@ -57,25 +57,24 @@ exports.getMovieById = async (req, res) => {
   }
 };
 
-// Update a movie (full replacement) using PUT
+// Update a movie
 exports.updateMovie = async (req, res) => {
   try {
     const { id } = req.params;
     let updatedData = req.body;
 
-    // Check if a file is provided and upload it to Cloudinary
     if (req.file) {
       const result = await cloudinary.uploader.upload(req.file.path, {
         resource_type: "auto",
         folder: "movies",
       });
-      updatedData.image = result.secure_url; // Use Cloudinary URL for image
+      updatedData.image = result.secure_url;
     }
 
     const updatedMovie = await Movie.findByIdAndUpdate(id, updatedData, {
-      new: true, // Return the updated document
-      runValidators: true, // Ensure data follows schema rules
-      overwrite: true, // Overwrite entire document
+      new: true,
+      runValidators: true,
+      overwrite: true,
     });
 
     if (!updatedMovie) {
@@ -91,24 +90,23 @@ exports.updateMovie = async (req, res) => {
   }
 };
 
-// Partially update a movie using PATCH
+// Partially update
 exports.patchMovie = async (req, res) => {
   try {
     const { id } = req.params;
     let updatedData = req.body;
 
-    // Check if a file is provided and upload it to Cloudinary
     if (req.file) {
       const result = await cloudinary.uploader.upload(req.file.path, {
         resource_type: "auto",
         folder: "movies",
       });
-      updatedData.image = result.secure_url; // Update image field
+      updatedData.image = result.secure_url;
     }
 
     const updatedMovie = await Movie.findByIdAndUpdate(id, updatedData, {
-      new: true, // Return the updated document
-      runValidators: true, // Ensure data follows schema rules
+      new: true,
+      runValidators: true,
     });
 
     if (!updatedMovie) {
@@ -145,20 +143,14 @@ exports.deleteMovie = async (req, res) => {
 // Search movies by keyword
 exports.searchMovies = async (req, res) => {
   try {
-    const keyword = req.query.keyword || ""; // Get the search keyword from query parameters
+    const keyword = req.query.keyword || "";
 
-    // Log the keyword for debugging
     console.log("Search keyword:", keyword);
 
-    // Create a case-insensitive regex pattern for the keyword
     const regex = new RegExp(keyword, "i");
 
-    // Search for movies where the name or introduce fields contain the keyword
     const movies = await Movie.find({
-      $or: [
-        { name: { $regex: regex } }, // Search in the name field
-        { introduce: { $regex: regex } }, // Search in the introduce field
-      ],
+      $or: [{ name: { $regex: regex } }, { introduce: { $regex: regex } }],
     });
 
     // Check if any movies were found

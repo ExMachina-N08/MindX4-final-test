@@ -12,7 +12,7 @@ const refreshAccessToken = async (req, res) => {
     // Verify the refresh token
     const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
 
-    // Find the user associated with this refresh token
+    // Find the user
     const user = await User.findById(decoded.id);
     if (!user || user.refreshToken !== refreshToken) {
       return res.status(403).json({ message: "Invalid refresh token" });
@@ -25,14 +25,14 @@ const refreshAccessToken = async (req, res) => {
       { expiresIn: "2h" }
     );
 
-    // Optionally, generate a new refresh token (rotation)
+    // generate a new refresh token (rotation)
     const newRefreshToken = jwt.sign(
       { id: user._id, username: user.username },
       process.env.JWT_REFRESH_SECRET,
       { expiresIn: "7d" }
     );
 
-    // Update the refresh token in the database
+    // Update the refresh token
     user.refreshToken = newRefreshToken;
     await user.save();
 

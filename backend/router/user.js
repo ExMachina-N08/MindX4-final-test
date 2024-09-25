@@ -32,7 +32,7 @@ router.put("/:id/profile", authentication, updateUser);
 router.patch("/:id/profile", authentication, patchUser);
 router.delete("/:id/profile", authentication, deleteUser);
 
-// Admin-Only Routes - Require Admin Authentication
+// Admin-Only Routes
 router.get("/admin/dashboard", authentication, isAdmin, (req, res) => {
   res.status(200).json({ message: `Welcome, Admin User: ${req.user.email}` });
 });

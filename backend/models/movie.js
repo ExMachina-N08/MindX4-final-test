@@ -4,12 +4,12 @@ const { Schema } = mongoose;
 const movieSchema = new Schema(
   {
     name: { type: String, required: true },
-    time: { type: Number }, // Duration in minutes
-    year: { type: Number }, // Year of release
-    image: { type: String }, // URL for the movie poster or image
-    introduce: { type: String }, // Short introduction or description
+    time: { type: Number },
+    year: { type: Number },
+    image: { type: String },
+    introduce: { type: String },
   },
-  { timestamps: true } // Enable automatic `createdAt` and `updatedAt` fields
+  { timestamps: true }
 );
 
 // Creating the Movie model from the schema

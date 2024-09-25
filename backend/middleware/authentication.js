@@ -5,7 +5,7 @@ const authentication = async (req, res, next) => {
   const authHeader = req.header("Authorization");
   const token = authHeader && authHeader.split(" ")[1];
 
-  // Log the token and secret for debugging (remove in production)
+  // Log the token
   console.log("Token:", token);
   console.log("JWT_SECRET:", process.env.JWT_SECRET);
 
@@ -17,13 +17,11 @@ const authentication = async (req, res, next) => {
   }
 
   try {
-    // Verify the token using the secret key
+    // Verify the token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    // Attach the decoded user information to the request object
     req.user = decoded;
 
-    // Proceed to the next middleware or route handler
     next();
   } catch (err) {
     // Handle invalid token

@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const createError = require("http-errors");
 const cors = require("cors");
-const cloudinary = require("./config/cloudinary");
 
 // Load environment variables
 dotenv.config();
@@ -13,7 +12,7 @@ const app = express();
 // Middleware
 app.use(
   cors({
-    origin: "http://localhost:5173", // Adjust as needed for frontend URL
+    origin: "http://localhost:5173",
     credentials: true,
   })
 );
@@ -26,12 +25,12 @@ mongoose
   .catch((err) => console.error("MongoDB connection error:", err));
 
 // Import Routes
-const userRoutes = require("./router/user"); // Ensure this path is correct
-const movieRoutes = require("./router/movie"); // Ensure this path is correct
+const userRoutes = require("./router/user");
+const movieRoutes = require("./router/movie");
 
 // Routes
-app.use("/api/users", userRoutes); // All user-related routes will be prefixed with /api/users
-app.use("/api/movies", movieRoutes); // All movie-related routes will be prefixed with /api/movies
+app.use("/api/users", userRoutes);
+app.use("/api/movies", movieRoutes);
 
 // Root Route
 app.get("/", (req, res) => {
